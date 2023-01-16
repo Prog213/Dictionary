@@ -6,22 +6,22 @@ namespace Dictionary
     class Program
     {
         public Dictionary<string, string> dictionary = new Dictionary<string, string>();
-        readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\AllWords.txt");
-        static readonly string newFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\UnknownWords.txt");
+        readonly string filePath = @"C:\Users\1111\Downloads\Telegram Desktop\23.txt";
+        static readonly string newFilePath = @"C:\Users\1111\Downloads\23.txt";
         string word = null;
         public bool IsCorrect { get; set; }
         public bool IsUnknown { get; set; }
         static int correctGuesses = 0;
         static int guesses = 1;
         string[] lines = new string[1];
-        public static ArrayList newDiction = new ArrayList();
+        public ArrayList newDiction = new ArrayList();
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
             Program program = new Program();
             program.CreateDictionary();
-            program.PrintNextValue();
-            //CreatenewFile(newDiction);
+            program.PrintNextValue(GetList(program.newDiction));
+            //CreatenewFile(program.newDiction);
             ShowScore(program.dictionary.Count, correctGuesses);
         }
         public void CreateDictionary()
@@ -32,7 +32,7 @@ namespace Dictionary
             foreach (string line in lines)
             {
                 string[] KeysAndValues = line.Trim().ToLower().Split("-");
-                if (!(line == ""))
+                if (line != "")
                 {
                     for (int i = 0; i < KeysAndValues.Length; i += 2)
                     {
@@ -47,10 +47,9 @@ namespace Dictionary
                     }
                 }
             }
-            Console.ReadKey();
-            Console.Clear();
         }
-        public void PrintNextValue()
+
+        public void PrintNextValue(ArrayList arr)
         {
             foreach (var keyValuePair in dictionary)
             {
@@ -58,7 +57,7 @@ namespace Dictionary
                 word = keyValuePair.Key;
                 Console.Write($"{word}- ");
                 CheckValue();
-                AddUnknownWord(IsUnknown, word, lines);
+                AddUnknownWord(IsUnknown, word, lines, arr);
                 Console.Clear();
             }
         }
@@ -85,13 +84,13 @@ namespace Dictionary
                     {
                         Console.WriteLine("\nPlease try again or type \"0\" to get answer\n");
                         Console.Write(word + "- ");
-                        string Newanswer = Convert.ToString(Console.ReadLine()).Replace("?", "і");
-                        if (correctAnswer == Newanswer)
+                        answer = Convert.ToString(Console.ReadLine()).Replace("?", "і");
+                        if (correctAnswer == answer)
                         {
                             IsCorrect = true;
                             correctGuesses++;
                         }
-                        else if (Newanswer == "0")
+                        else if (answer == "0")
                         {
                             IsCorrect = true;
                             Console.WriteLine($"\n{word}- {correctAnswer}");
@@ -123,14 +122,14 @@ namespace Dictionary
                     {
                         Console.WriteLine("\nPlease try again or type \"0\" to get answer\n");
                         Console.Write(word + "- ");
-                        string newanswer = Convert.ToString(Console.ReadLine()).Replace("?", "і");
-                        if (newanswer == answers[0] || newanswer == answers[1])
+                        answer = Convert.ToString(Console.ReadLine()).Replace("?", "і");
+                        if (answer == answers[0] || answer == answers[1])
                         {
                             correctGuesses++;
                             IsCorrect = true;
                             Console.WriteLine($"\n{word}- {correctAnswer}");
                         }
-                        else if (newanswer == "0")
+                        else if (answer == "0")
                         {
                             IsCorrect = IsUnknown = true;
                             Console.WriteLine($"\n{word}- {correctAnswer}");
@@ -140,7 +139,7 @@ namespace Dictionary
             }
             IsCorrect = IsUnknown = false;
             guesses++;
-            Task.Delay(1500).Wait();
+            //AddDelay(hasDoubleVal, answer, correctAnswer);
         }
 
         public static bool HasDoubleValue(string answer)
@@ -163,12 +162,12 @@ namespace Dictionary
             return null;
         }
 
-        public static void AddUnknownWord(bool val, string word, string[] arr)
+        public static void AddUnknownWord(bool val, string word, string[] arr, ArrayList arrayList)
         {
             string words = GetUnkwownString(val, word, arr);
-            if (!(words == null))
+            if (words != null)
             {
-                newDiction.Add(words);
+                arrayList.Add(words);
             }
         }
 
@@ -191,6 +190,27 @@ namespace Dictionary
             Console.SetCursorPosition(0, Console.WindowHeight - 1);
             Console.Write($"{current} / {all}");
             Console.SetCursorPosition(0, 0);
+        }
+        public static void AddDelay(bool doubval, string ans, string corans)
+        {
+            if (doubval)
+            {
+                if (!corans.Contains(ans))
+                {
+                    Task.Delay(1500).Wait();
+                }
+            }
+            else
+            {
+                if (ans != corans)
+                {
+                    Task.Delay(1500).Wait();
+                }
+            }
+        }
+        public static ArrayList GetList(ArrayList arr)
+        {
+            return arr;
         }
     }
 }
