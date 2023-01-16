@@ -1,0 +1,105 @@
+foundation - основа
+conversion - перетворення
+examine - вивчати
+reasonable - розумний
+retrieve - отримати
+broad - широкий
+flavor - роздинка
+clause - пункт
+specify - визначення
+refer - посилатися
+as the name implies - як зрозуміло з назви
+Contrary to - всупереч , незважаючи на
+measured - виміряти
+assuming - за умови, припустивши
+substitute - замінити
+credentials - облікові дані
+parties - сторони
+eavesdrop on - підслуховувати
+cipher - шифр
+gather - зібрати
+intercept - перехопити
+predecessor - попередник
+virtually - практично
+Partitioning - розподіл
+utilization of resources - використання ресурсів
+thus - таким чином , як наслідок
+applied - застосовується
+firmware - прошивка
+assume - припускати
+thin - тонкий , худий
+computing - обчислення
+reconstitute - відновити
+repository - сховище
+susceptible - чутливий
+significantly - значно , суттєво
+inferior to - поступається
+reside in - перебувати в
+vendor - постачальник
+approach - підхід 
+wire - дріт 
+maintenance - обслуговування 
+presuppose - припускати, передбачати 
+conventional - звичайний, традиційний 
+node - вузол, вершина 
+interconnected - взаємопов'язаний
+constituent - складовий 
+interaction - взаємодія 
+safe and sound - цілим і неушкодженим
+designed - призначений 
+sequentially - послідовно 
+apparently - очевидно, мабуть 
+circuit - схема 
+addition - додавання 
+substraction - віднімання 
+drawbacks - недоліки 
+assignment - завдання, призначення 
+convention - домовленість 
+corresponding - відповідний 
+considering - розглядаючи 
+branch - гілка 
+implementation - реалізація 
+denote - позначає 
+respectively - відповідно 
+negates - заперечує 
+distribute- поширювати 
+Substitute - замінити 
+initial - початковий 
+essentially - по суті, фактично 
+Fetch - отримати 
+retrieve - отримує 
+mapping- відображення 
+mixture - суміш 
+elaborate on - детально розповісти про 
+narrow - вузький 
+band - діапазон 
+retina - сітківка 
+perception - сприйняття 
+bitmap - растрові 
+distinguish - розрізняти 
+transition - перехід 
+sequence - послідовність 
+precedence - пріоритет 
+arises - виникає 
+establish - створити, встановити 
+interaction - взаємодія 
+attached to a computer - підключений до пк 
+e.g. - наприклад 
+tie - пов'язувати 
+colon - двокрапка 
+quotation marks - лапки 
+allocates - виділяє, розподіляє 
+descending or ascending order - в порядку спадання/зростання 
+regardless - незалежно від 
+omit - опустити 
+essence - суть 
+concatenate - об'єднати 
+concise - короткий, лаконічний 
+
+
+
+
+
+
+
+

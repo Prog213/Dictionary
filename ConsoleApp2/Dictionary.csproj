@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files.txt\AllWords.txt" />
+    <None Remove="Files.txt\UnknownWords.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Files.txt\AllWords.txt" />
+    <Content Include="Files.txt\UnknownWords.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
   </ItemGroup>
 
