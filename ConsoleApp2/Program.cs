@@ -6,28 +6,31 @@ namespace Dictionary
     class Program
     {
         public Dictionary<string, string> dictionary = new Dictionary<string, string>();
-        readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\AllWords.txt");
-        static readonly string newFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\UnknownWords.txtqwe");
+        static readonly string allWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\AllWords.txt");
+        static readonly string unknownWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\UnknownWords.txt");
+        static readonly string learnedWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\LearnedWords.txt");
         string word = null;
         public bool IsCorrect { get; set; }
         public bool IsUnknown { get; set; }
         public int correctGuesses = 0;
         public int guesses = 1;
-        string[] lines = new string[1];
-        public ArrayList newDiction = new ArrayList();
+        public ArrayList learnedWords = new ArrayList();
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
             Program program = new Program();
             program.CreateDictionary();
-            program.PrintNextValue(program.newDiction);
-            CreatenewFile(program.newDiction);
+            program.PrintNextValue(program.learnedWords);
+            
+            
+            
+            
+            CreatenewFile(program.learnedWords);
             ShowScore(program.dictionary.Count, program.correctGuesses);
         }
         public void CreateDictionary()
         {
-            bool hasExeptions = false;
-            lines = File.ReadAllLines(filePath);
+            string[] lines = File.ReadAllLines(allWordsPath);
             Random rng = new Random();
             rng.Shuffle(lines);
             foreach (string line in lines)
@@ -45,30 +48,17 @@ namespace Dictionary
                         {
                             dictionary.Add(KeysAndValues[i], KeysAndValues[i + 1]);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-                            Console.WriteLine(e.Message);
-                            hasExeptions = true;
+                            //Exeption
                         }
                     }
                 }
             }
-            if (hasExeptions)
-            {
-                char k;
-                Console.WriteLine("\nPress Esc to continue");
-                do
-                {
-                    k = Console.ReadKey().KeyChar;
-                    Console.WriteLine("");
-                }
-                while (k != '\u001b');
-                Console.Clear();
-            }
         }
 
 
-        public void PrintNextValue(ArrayList arr)
+        public void PrintNextValue(ArrayList learned)
         {
             foreach (var keyValuePair in dictionary)
             {
@@ -76,7 +66,7 @@ namespace Dictionary
                 word = keyValuePair.Key;
                 Console.Write($"{word} - ");
                 CheckValue();
-                AddUnknownWord(IsUnknown, word, dictionary, arr);
+                AddLearnedWord(IsUnknown, word, dictionary, learned);
                 IsCorrect = IsUnknown = false;
                 Console.Clear();
             }
@@ -158,7 +148,7 @@ namespace Dictionary
                 }
             }
             guesses++;
-            AddDelay(hasDoubleVal, answer, correctAnswer);
+            //AddDelay(hasDoubleVal, answer, correctAnswer);
         }
 
         public static bool HasDoubleValue(string answer)
@@ -166,35 +156,59 @@ namespace Dictionary
             return answer.Contains(',');
         }
 
-        public static string GetUnkwownString(bool val, string word, Dictionary<string, string> dictionary)
+        public static string GetStringFromWord(string word, Dictionary<string, string> dictionary)
         {
             string[] arr = dictionary.ToArrayDashed();
-            if (val)
+            for (int i = 0; i < arr.Length; i++)
             {
-                for (int i = 0; i < arr.Length; i++)
+                if (arr[i].Contains(word))
                 {
-                    if (arr[i].Contains(word))
-                    {
-                        return arr[i];
-                    }
+                    return arr[i];
                 }
             }
             return null;
         }
 
-        public static void AddUnknownWord(bool val, string word, Dictionary<string, string> dictionary, ArrayList arrayList)
+        public static void AddLearnedWord(bool isUnkwn, string word, Dictionary<string, string> dictionary, ArrayList learned)
         {
-            string words = GetUnkwownString(val, word, dictionary);
-            if (words != null)
+            string words = GetStringFromWord(word, dictionary);
+            if (words != null && !isUnkwn)
             {
-                arrayList.Add(words);
+                learned.Add(words);
             }
         }
 
-        public static void CreatenewFile(ArrayList arr)
+        public static void CreatenewFile(ArrayList learned)
         {
-            string[] newArray = (string[])arr.ToArray(typeof(string));
-            File.WriteAllLines(newFilePath, newArray);
+            string[] allWordsArray = GetArrayFromFile(allWordsPath);
+            ArrayList learnedSortedArray = new ArrayList();
+            ArrayList unknownSortedArray = new ArrayList();
+
+            if (learned.Count != 0)
+            {
+                for (int i = 0; i < allWordsArray.Length; i++)
+                {
+                    for (int k = 0; k < learned.Count; k++)
+                    {
+                        if (allWordsArray[i] == (string)learned[k])
+                        {
+                            learnedSortedArray.Add(allWordsArray[i]);
+                        }
+                        else
+                        {
+                            unknownSortedArray.Add(allWordsArray[i]);
+                        }
+                    }
+                }
+                //File.WriteAllLines(unknownWordsPath, learned);
+            }
+            else
+            {
+                for (int i = 0; i < allWordsArray.Length; i++)
+                {
+                    unknownSortedArray.Add(allWordsArray[i]);
+                }
+            }
         }
         public static void ShowScore(int count, int correct)
         {
@@ -227,6 +241,11 @@ namespace Dictionary
                     Task.Delay(1500).Wait();
                 }
             }
+        }
+        public static string[] GetArrayFromFile(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            return lines.ToDiction().ToArrayDashed();
         }
     }
 }
