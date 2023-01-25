@@ -1,6 +1,6 @@
 constituent - складовий 
 virtually - практично
-flavor - родзинка
+flavor - роздинка
 predecessor - попередник
 regardless - незалежно від 
 assuming - за умови, припустивши

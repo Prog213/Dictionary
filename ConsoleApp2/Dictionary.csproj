@@ -9,11 +9,15 @@
 
   <ItemGroup>
     <None Remove="Files.txt\AllWords.txt" />
+    <None Remove="Files.txt\LearnedWords.txt" />
+    <None Remove="Files.txt\UnknownWords - Copy.txt" />
     <None Remove="Files.txt\UnknownWords.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Files.txt\LearnedWords.txt" />
     <Content Include="Files.txt\AllWords.txt" />
+    <Content Include="Files.txt\UnknownWords - Copy.txt" />
     <Content Include="Files.txt\UnknownWords.txt" />
   </ItemGroup>
 

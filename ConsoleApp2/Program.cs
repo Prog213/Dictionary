@@ -21,16 +21,12 @@ namespace Dictionary
             Program program = new Program();
             program.CreateDictionary();
             program.PrintNextValue(program.learnedWords);
-            
-            
-            
-            
             CreatenewFile(program.learnedWords);
             ShowScore(program.dictionary.Count, program.correctGuesses);
         }
         public void CreateDictionary()
         {
-            string[] lines = File.ReadAllLines(allWordsPath);
+            string[] lines = File.ReadAllLines(unknownWordsPath);
             Random rng = new Random();
             rng.Shuffle(lines);
             foreach (string line in lines)
@@ -137,7 +133,7 @@ namespace Dictionary
                         {
                             correctGuesses++;
                             IsCorrect = true;
-                            Console.WriteLine($"\n{word}- {correctAnswer}");
+                            Console.WriteLine($"\n{word} - {correctAnswer}");
                         }
                         else if (answer == "0")
                         {
@@ -180,17 +176,18 @@ namespace Dictionary
 
         public static void CreatenewFile(ArrayList learned)
         {
+            ArrayList alllearnedArray = AddLearnedFromTxt(learned);
             string[] allWordsArray = GetArrayFromFile(allWordsPath);
             ArrayList learnedSortedArray = new ArrayList();
             ArrayList unknownSortedArray = new ArrayList();
 
-            if (learned.Count != 0)
+            if (alllearnedArray.Count != 0)
             {
                 for (int i = 0; i < allWordsArray.Length; i++)
                 {
-                    for (int k = 0; k < learned.Count; k++)
+                    for (int k = 0; k < alllearnedArray.Count; k++)
                     {
-                        if (allWordsArray[i] == (string)learned[k])
+                        if (allWordsArray[i] == (string)alllearnedArray[k])
                         {
                             learnedSortedArray.Add(allWordsArray[i]);
                         }
@@ -200,15 +197,14 @@ namespace Dictionary
                         }
                     }
                 }
-                //File.WriteAllLines(unknownWordsPath, learned);
             }
             else
             {
-                for (int i = 0; i < allWordsArray.Length; i++)
-                {
-                    unknownSortedArray.Add(allWordsArray[i]);
-                }
+                unknownSortedArray.AddRange(allWordsArray);
             }
+            File.WriteAllLines(unknownWordsPath,(string[])unknownSortedArray.ToArray(typeof(string)));
+            File.AppendAllLines(learnedWordsPath, (string[])learnedSortedArray.ToArray(typeof(string)));
+
         }
         public static void ShowScore(int count, int correct)
         {
@@ -246,6 +242,20 @@ namespace Dictionary
         {
             string[] lines = File.ReadAllLines(path);
             return lines.ToDiction().ToArrayDashed();
+        }
+        public static ArrayList AddLearnedFromTxt(ArrayList learned)
+        {
+            string[] learnedWordsArray = GetArrayFromFile(learnedWordsPath);
+            ArrayList arrayList = new();
+            if (learned.Capacity != 0)
+            {
+                arrayList.AddRange(learned);
+            }
+            if (learnedWordsArray.Length != 0)
+            {
+                arrayList.AddRange(learnedWordsArray);
+            }
+            return arrayList;
         }
     }
 }
