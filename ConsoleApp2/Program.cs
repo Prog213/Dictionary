@@ -6,9 +6,9 @@ namespace Dictionary
     class Program
     {
         public Dictionary<string, string> dictionary = new Dictionary<string, string>();
-        static readonly string allWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\AllWords.txt");
-        static readonly string unknownWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\UnknownWords.txt");
-        static readonly string learnedWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files.txt\LearnedWords.txt");
+        static readonly string allWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files\UnknownWords.txt");
+        static readonly string unknownWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files\UnknownWords.txt");
+        static readonly string learnedWordsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Files\LearnedWords.txt");
         string word = null;
         public bool IsCorrect { get; set; }
         public bool IsUnknown { get; set; }
@@ -26,7 +26,7 @@ namespace Dictionary
         }
         public void CreateDictionary()
         {
-            string[] lines = File.ReadAllLines(unknownWordsPath);
+            string[] lines = (string[])GetUnknown(allWordsPath,learnedWordsPath).ToArray(typeof(string));
             Random rng = new Random();
             rng.Shuffle(lines);
             foreach (string line in lines)
@@ -255,6 +255,31 @@ namespace Dictionary
             {
                 arrayList.AddRange(learnedWordsArray);
             }
+            return arrayList;
+        }
+        public static ArrayList GetUnknown(string pathOfAll, string pathOfLearned)
+        {
+            string[] learnedWordsArray = GetArrayFromFile(pathOfLearned);
+            string[] allWordsArray = GetArrayFromFile(pathOfAll);
+            ArrayList arrayList = new();
+            if (learnedWordsArray.Length != 0)
+            {
+                for (int i = 0; i < allWordsArray.Length; i++)
+                {
+                    for (int k = 0; k < learnedWordsArray.Length; k++)
+                    {
+                        if (allWordsArray[i] != learnedWordsArray[k])
+                        {
+                            arrayList.Add(allWordsArray[i]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                arrayList.AddRange(allWordsArray);
+            }
+
             return arrayList;
         }
     }
